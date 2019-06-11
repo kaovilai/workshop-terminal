@@ -2,6 +2,15 @@ FROM centos/s2i-base-centos7:latest
 
 USER root
 
+# Install OPEN-CNS-TESTDRIVE utilities.
+
+RUN HOME=/root && \
+    INSTALL_PKGS="jq" && \
+    yum install -y centos-release-scl epel-release && \
+    yum -y --setopt=tsflags=nodocs install --enablerepo=centosplus $INSTALL_PKGS && \
+    rpm -V $INSTALL_PKGS && \
+    yum -y clean all --enablerepo='*'
+
 # Install additional common utilities.
 
 RUN HOME=/root && \
